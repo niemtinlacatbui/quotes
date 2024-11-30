@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Page Title</title>
+</head>
+<body>
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Quote of the Day</title>
+<style>
+body {
+  font-family: sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #fff; /* White background */
+  margin: 0;
+}
+
+#quote-container {
+  text-align: center;
+  padding: 40px; /* Increased padding */
+  border: 2px solid darkgreen; /* Dark green border */
+  border-radius: 10px;
+  width: 500px; /* Fixed width */
+}
+
+#quote {
+  font-size: 1.5em; /* Larger font size */
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+.quote-marks {
+    font-size: 3em; /* Larger font size */
+  font-weight: bold;
+
+}
+
+#author {
+  font-style: italic;
+  margin-top: 20px;
+}
+
+button {
+    background-color: darkgreen; /* Dark green button */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top:20px;
+}
+</style>
+</head>
+<body>
+
+<div id="quote-container">
+    <span class="quote-marks">“</span><span id="quote"></span><span class="quote-marks">”</span>
+  <div id="author"></div>
+  <button onclick="displayQuote()">Change Quote</button>
+
+</div>
+
+<script>
+const quotes = [
+  { text: "Hạnh phúc là khi những gì bạn nghĩ, những gì bạn nói và những gì bạn làm đều hòa hợp với nhau", author: "Mahatma Gandhi" },
+{ text: "Cuộc sống là những gì xảy ra khi bạn đang bận rộn lên kế hoạch khác", author: "John Lennon" },
+{ text: "Hãy là sự thay đổi mà bạn muốn thấy trên thế giới", author: "Mahatma Gandhi" },
+{ text: "Cách duy nhất để làm tốt công việc là yêu công việc của bạn", author: "Steve Jobs" },
+{ text: "Điều quan trọng không phải là sống bao lâu mà là sống như thế nào", author: "Martin Luther King Jr." },
+{ text: "Học hỏi từ hôm qua, sống cho hôm nay, hy vọng cho ngày mai", author: "Albert Einstein" },
+{ text: "Cuộc sống thực sự bắt đầu khi bạn bước ra khỏi vùng an toàn của mình", author: "Neale Donald Walsch" },
+{ text: "Thành công không phải là chìa khóa của hạnh phúc. Hạnh phúc là chìa khóa của thành công", author: "Albert Schweitzer" },
+{ text: "Đừng bao giờ từ bỏ ước mơ của bạn. Nếu bạn không có ước mơ, bạn sẽ không có gì để phấn đấu", author: "Malcolm Forbes" },
+{ text: "Thất bại là cơ hội để bắt đầu lại một cách thông minh hơn", author: "Henry Ford" },
+{ text: "Sự khác biệt duy nhất giữa một ngày tốt lành và một ngày tồi tệ là thái độ của bạn", author: "Dennis S. Brown" },
+{ text: "Điều quan trọng không phải vị trí bạn đang đứng mà là hướng bạn đang đi", author: "Oliver Wendell Holmes" },
+{ text: "Hãy tin bạn có thể và bạn đã đi được nửa đường", author: "Theodore Roosevelt" },
+{ text: "Bí mật của sự tiến bộ là bắt đầu", author: "Mark Twain" },
+{ text: "Cách tốt nhất để dự đoán tương lai là tạo ra nó", author: "Peter Drucker" },
+{ text: "Không có gì là không thể với những người dám thử", author: "Alexander Đại đế" },
+{ text: "Hạn chế duy nhất của chúng ta là những hạn chế chúng ta đặt ra trong tâm trí mình", author: "Napoleon Hill" },
+{ text: "Hãy sống mỗi ngày như thể đó là ngày cuối cùng của bạn", author: "Steve Jobs" },
+{ text: "Thành công lớn nhất là đứng dậy sau mỗi lần vấp ngã", author: "Nelson Mandela" },
+{ text: "Không phải lúc nào bạn cũng có thể kiểm soát những gì xảy ra với mình, nhưng bạn có thể kiểm soát cách bạn phản ứng với nó", author: "Epictetus" },
+{ text: "Hãy là chính mình, mọi người khác đã có chủ", author: "Oscar Wilde" },
+{ text: "Đừng sợ mắc sai lầm. Đó là cách bạn học hỏi và trưởng thành", author: "Benjamin Franklin" },
+{ text: "Cuộc sống quá ngắn ngủi để thức dậy với những hối tiếc", author: "George Eliot" },
+{ text: "Hạnh phúc không phải là điều gì đó sẵn có. Nó đến từ hành động của bạn", author: "Dalai Lama" },
+{ text: "Sự kiên trì là chìa khóa dẫn đến thành công", author: "Benjamin Disraeli" },
+{ text: "Hãy luôn nhìn vào mặt tích cực của cuộc sống", author: "Winston Churchill" },
+{ text: "Bạn càng khen ngợi và ăn mừng cuộc sống của mình, bạn càng có nhiều điều để ăn mừng trong cuộc sống", author: "Oprah Winfrey" },
+{ text: "Cách để bắt đầu là ngừng nói và bắt đầu làm", author: "Walt Disney" },
+{ text: "Cuộc sống không phải là việc tìm kiếm chính mình. Cuộc sống là việc tạo ra chính mình", author: "George Bernard Shaw" },
+{ text: "Thái độ biết ơn có thể biến những ngày bình thường thành ngày lễ tạ ơn, biến công việc bình thường thành niềm vui, và biến những cơ hội bình thường thành phước lành", author: "William Arthur Ward" },
+{ text: "Hãy tử tế với mọi người bạn gặp, bởi vì ai cũng đang chiến đấu một trận chiến khó khăn", author: "Plato" },
+{ text: "Sự vĩ đại của một người không nằm ở việc anh ta bao giờ không gục ngã, mà là ở việc anh ta luôn đứng dậy sau mỗi lần gục ngã", author: "Confucius" },
+{ text: "Hãy mơ những giấc mơ lớn lao và dám thất bại", author: "Norman Vaughan" },
+{ text: "Cách tốt nhất để dự đoán tương lai là tạo ra nó", author: "Abraham Lincoln" },
+{ text: "Hãy làm những gì bạn có thể, với những gì bạn có, ở nơi bạn đang có", author: "Theodore Roosevelt" },
+{ text: "Đừng bao giờ, không bao giờ, không bao giờ từ bỏ", author: "Winston Churchill" },
+{ text: "Điều duy nhất chúng ta phải sợ là chính nỗi sợ hãi", author: "Franklin D. Roosevelt" },
+{ text: "Tôi không thất bại. Tôi chỉ mới tìm ra 10.000 cách không hoạt động", author: "Thomas Edison" },
+{ text: "Người bi quan nhìn thấy khó khăn trong mọi cơ hội. Người lạc quan nhìn thấy cơ hội trong mọi khó khăn", author: "Winston Churchill" },
+{ text: "Thước đo cuối cùng của một người đàn ông không phải là anh ta đứng ở đâu trong những khoảnh khắc thoải mái và thuận tiện, mà là anh ta đứng ở đâu trong thời kỳ thử thách và tranh cãi", author: "Martin Luther King Jr." },
+{ text: "Giáo dục là vũ khí mạnh mẽ nhất mà bạn có thể sử dụng để thay đổi thế giới", author: "Nelson Mandela" },
+{ text: "Bạn phải làm những điều bạn nghĩ là bạn không thể làm", author: "Eleanor Roosevelt" },
+{ text: "Hãy luôn nhớ rằng bạn hoàn toàn độc đáo. Giống như mọi người khác", author: "Margaret Mead" },
+{ text: "Cuộc sống là 10% những gì xảy ra với tôi và 90% cách tôi phản ứng với nó", author: "Charles Swindoll" },
+{ text: "Khi một cánh cửa hạnh phúc đóng lại, một cánh cửa khác mở ra, nhưng thường chúng ta nhìn quá lâu vào cánh cửa đã đóng mà không nhìn thấy cánh cửa đã mở ra cho chúng ta", author: "Helen Keller" },
+{ text: "Thách thức lớn nhất sau thành công là ngừng nói về nó", author: "Criss Jami" },
+{ text: "Tôi đã học được rằng mọi người sẽ quên những gì bạn nói, mọi người sẽ quên những gì bạn làm, nhưng mọi người sẽ không bao giờ quên cảm giác bạn đã mang lại cho họ", author: "Maya Angelou" },
+{ text: "Khi tôi buông bỏ những gì tôi là, tôi trở thành những gì tôi có thể trở thành", author: "Lão Tử" },
+{ text: "Cách duy nhất để làm công việc tuyệt vời là yêu những gì bạn làm. Nếu bạn chưa tìm thấy nó, hãy tiếp tục tìm kiếm. Đừng dừng lại", author: "Steve Jobs" },
+{ text: "Cuộc sống của bạn là câu chuyện của bạn. Viết cho hay. Chỉnh sửa thường xuyên", author: "Natalie Goldberg" },
+{ text: "Mọi thứ bạn có thể tưởng tượng đều là thật", author: "Pablo Picasso" },
+{ text: "Mọi giấc mơ của bạn đều có thể trở thành hiện thực nếu bạn có đủ can đảm để theo đuổi chúng", author: "Walt Disney" },
+{ text: "Hai ngày quan trọng nhất trong đời bạn là ngày bạn sinh ra và ngày bạn tìm ra lý do tại sao", author: "Mark Twain" },
+{ text: "Cuộc sống co lại hoặc mở rộng theo tỷ lệ thuận với lòng can đảm của một người", author: "Anaïs Nin" },
+{ text: "Nếu cuộc sống có thể đoán trước được thì nó sẽ không còn là cuộc sống và sẽ không còn hương vị", author: "Eleanor Roosevelt" },
+{ text: "Bí mật của việc tiến về phía trước là bắt đầu", author: "Mark Twain" },
+{ text: "Cuộc sống không phải là vấn đề giữ những quân bài tốt, mà là chơi một ván bài xấu thật tốt", author: "Robert Louis Stevenson" },
+{ text: "Hãy giữ cho khuôn mặt của bạn hướng về ánh nắng mặt trời và bạn sẽ không nhìn thấy bóng tối", author: "Helen Keller" },
+{ text: "Nhiều người trong chúng ta không sống giấc mơ của mình bởi vì chúng ta đang sống trong nỗi sợ hãi của mình", author: "Les Brown" },
+{ text: "Tôi tin rằng mọi thứ đều có lý do. Mọi người thay đổi để bạn có thể học cách buông bỏ, mọi thứ trở nên tồi tệ để bạn trân trọng chúng khi chúng tốt đẹp, bạn tin tưởng vào lời nói dối để cuối cùng bạn học cách tin tưởng vào không ai ngoài chính mình, và đôi khi những điều tốt đẹp tan vỡ để những điều tốt đẹp hơn có thể đến với nhau", author: "Marilyn Monroe" },
+{ text: "Hạnh phúc là một con bướm, khi bị truy đuổi, luôn luôn nằm ngoài tầm với của bạn, nhưng nếu bạn ngồi yên lặng, nó có thể đậu lên bạn", author: "Nathaniel Hawthorne" },
+{ text: "Cách duy nhất để thực hiện công việc tuyệt vời là yêu những gì bạn làm", author: "Steve Jobs" },
+{ text: "Đừng bao giờ để nỗi sợ hãi về việc bị loại bỏ ngăn cản bạn chơi trò chơi", author: "Babe Ruth" },
+{ text: "Cuộc sống là những gì xảy ra với bạn khi bạn đang bận rộn lập kế hoạch khác", author: "John Lennon" },
+{ text: "Hãy là chính mình và nói những gì bạn cảm thấy, bởi vì những người không quan tâm không quan trọng và những người quan trọng không quan tâm", author: "Dr. Seuss" },
+{ text: "Bạn chỉ sống một lần, nhưng nếu bạn làm đúng, một lần là đủ", author: "Mae West" },
+{ text: "Nhiều người thất bại trong cuộc sống không phải vì họ nhắm mục tiêu quá cao và bỏ lỡ, mà vì họ nhắm mục tiêu quá thấp và trúng đích", author: "Les Brown" },
+{ text: "Nếu bạn nhìn thấy những gì là hoàn hảo, bạn sẽ không bao giờ học hỏi và bạn sẽ không bao giờ trưởng thành", author: "Beyoncé Knowles" },
+{ text: "Cuộc sống giống như việc đi xe đạp. Để giữ thăng bằng, bạn phải tiếp tục di chuyển", author: "Albert Einstein" },
+{ text: "Tôi không quan tâm bạn đi chậm như thế nào, miễn là bạn không dừng lại", author: "Confucius" },
+{ text: "Giới hạn duy nhất đối với việc thực hiện những giấc mơ của chúng ta ngày mai sẽ là những nghi ngờ của chúng ta ngày hôm nay", author: "Franklin D. Roosevelt" },
+{ text: "Chỉ có một cách để tránh bị chỉ trích: không làm gì, không nói gì và không là gì cả", author: "Aristotle" },
+{ text: "Câu hỏi không phải là ai sẽ cho phép tôi; đó là ai sẽ ngăn cản tôi", author: "Ayn Rand" },
+{ text: "Tôi đã học được rằng mọi người sẽ quên những gì bạn nói, mọi người sẽ quên những gì bạn làm, nhưng mọi người sẽ không bao giờ quên bạn đã khiến họ cảm thấy thế nào", author: "Maya Angelou" },
+{ text: "Cuộc sống không phải là chờ đợi cơn bão đi qua; đó là học cách nhảy múa dưới mưa", author: "Vivian Greene" },
+{ text: "Hãy tử tế bất cứ khi nào có thể. Nó luôn luôn có thể", author: "Dalai Lama" },
+{ text: "Không ai có thể khiến bạn cảm thấy kém cỏi nếu không có sự đồng ý của bạn", author: "Eleanor Roosevelt" },
+{ text: "Cho dù bạn nghĩ bạn có thể hay nghĩ bạn không thể, bạn đều đúng", author: "Henry Ford" },
+{ text: "Hai mươi năm kể từ bây giờ bạn sẽ thất vọng hơn về những điều bạn đã không làm hơn là những điều bạn đã làm. Vì vậy, hãy tháo dây buộc. Đi thuyền ra khỏi bến cảng an toàn. Bắt lấy những cơn gió mậu dịch trong cánh buồm của bạn. Khám phá. Mơ ước. Khám phá", author: "Mark Twain" },
+{ text: "Tôi chưa bao giờ mơ về thành công. Tôi đã làm việc cho nó", author: "Estée Lauder" },
+{ text: "Điều duy nhất cản trở bạn đạt được mục tiêu của mình là câu chuyện bạn tiếp tục kể cho chính mình tại sao bạn không thể đạt được nó", author: "Jordan Belfort" },
+{ text: "Cuộc sống là những gì chúng ta tạo ra, nó luôn luôn như vậy, và sẽ luôn luôn như vậy", author: "Bà ngoại Moses" },
+{ text: "Câu hỏi không phải là ai sẽ cho phép tôi; đó là ai sẽ ngăn cản tôi", author: "Ayn Rand" },
+{ text: "Khi mọi thứ dường như đi ngược lại bạn, hãy nhớ rằng máy bay cất cánh ngược chiều gió, không phải cùng chiều gió", author: "Henry Ford" },
+{ text: "Bạn có thể lãng phí cuộc sống của mình vẽ đường kẻ, hoặc bạn có thể sống cuộc sống của mình vượt qua chúng", author: "Shonda Rhimes" },
+{ text: "Bạn không bao giờ quá già để đặt ra một mục tiêu khác hoặc mơ một giấc mơ mới", author: "C.S. Lewis" },
+{ text: "Không có gì là không thể, bản thân từ này đang nói 'Tôi có thể!'" , author: "Audrey Hepburn" },
+{ text: "Cách duy nhất để làm tốt công việc là yêu công việc của bạn", author: "Steve Jobs" },
+{ text: "Hãy tin bạn có thể và bạn đã đi được nửa đường", author: "Theodore Roosevelt" },
+{ text: "Tôi không thất bại. Tôi chỉ là tìm thấy 10.000 cách không hoạt động", author: "Thomas Edison" },
+{ text: "Một người thành công là người có thể đặt nền móng vững chắc bằng những viên gạch mà người khác đã ném vào anh ta", author: "David Brinkley" },
+{ text: "Những người đủ điên rồ để nghĩ rằng họ có thể thay đổi thế giới là những người làm được", author: "Rob Siltanen" },
+{ text: "Đừng sợ hãi trước sự hoàn hảo. Bạn sẽ không bao giờ đạt được nó", author: "Salvador Dalí" },
+  // ... more quotes
+];
+
+function displayQuote() {
+  const randomIndex = Math.floor(Math.random() * quotes.length);
+  const quote = quotes[randomIndex];
+  document.getElementById("quote").textContent = quote.text;
+  document.getElementById("author").textContent = "- " + quote.author;
+}
+
+// Initial display on page load
+displayQuote();
+</script>
+
+</body>
+</html>
+
+</body>
+</html>
+
